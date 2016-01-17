@@ -1,0 +1,182 @@
+$message-size: 3;
+$breakpoint-one : 28.125em;
+$breakpoint-two : 31.25em;
+$breakpoint-wide: 60em;
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 23px;
+}
+
+h1 {
+    font-size: 23px;
+    font-weight: 500;
+}
+
+h2 {
+    font-size: 17px;
+    font-weight: 500;
+}
+
+h3 {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+p {
+    font-size: 14px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+// body classes generated from JS
+.viewport-type {
+    font-weight: 700;
+}
+
+.viewport-handheld {
+    background-color: #fff;
+    color: #222;
+}
+
+.viewport-mini {
+    background-color: #ccc;
+    color: #222;
+}
+
+.viewport-tablet {
+    background-color: #666;
+    color: #fff;
+}
+
+.viewport-widescreen {
+    background-color: #333;
+    color: #fff;
+}
+
+.heading-main,
+.subheading {
+    margin-left: .5rem;
+}
+
+.wrapper {
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.static-img {
+    margin: 0;
+    text-align: center;
+
+    img {
+        border: 2px solid #222;
+        opacity: .75;
+    }
+}
+
+.message {
+    color: rgba(0,0,0,0.1);
+    font-size: $message-size + rem;
+    font-weight: 400;
+    text-align: center;
+    margin-top: -$message-size/2 + rem;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: rotate(-45deg);
+}
+
+.has-sidebar {
+    display: flex;
+    flex-wrap: wrap;
+
+    .content-main {
+        padding-right: .5rem;
+        width: 75%;
+    }
+
+    .sidebar {
+        background-color: rgba(0,0,0,0.25);
+        padding: 0 24px 24px;
+        width: 25%;
+    }
+}
+
+.spin {
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 1000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 1000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 1000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    animation-name: spin;
+    animation-duration: 1000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@-ms-keyframes spin {
+    0% { -ms-transform: rotate(0deg); }
+    100% { -ms-transform: rotate(360deg); }
+}
+@-moz-keyframes spin {
+    0% { -moz-transform: rotate(0deg); }
+    100% { -moz-transform: rotate(360deg); }
+}
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes spin {
+    0% {
+        transform:rotate(0deg);
+    }
+    100% {
+        transform:rotate(360deg);
+    }
+}
+
+@media all and (min-width: $breakpoint-one) {
+    $message-size: 4;
+
+    .message {
+        font-size: $message-size + rem;
+        margin-top: -$message-size/2 + rem;
+    }
+}
+
+@media all and (min-width: $breakpoint-two) {
+    $message-size: 8;
+
+    .message {
+        font-size: $message-size + rem;
+        margin-top: -$message-size/2 + rem;
+    }
+}
+
+@media all and (min-width: $breakpoint-wide) {
+    $message-size: 12;
+
+    .message {
+        font-size: $message-size + rem;
+        margin-top: -$message-size/2 + rem;
+    }
+}

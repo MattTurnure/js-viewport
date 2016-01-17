@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>JS Viewport</title>
+
+        <link href="demo/demo.css" rel="stylesheet">
+    </head>
+    <body role="document">
+        <div class="wrapper" id="wrapper"><!-- if sidebar is loaded in, add class 'has-sidebar' -->
+            <main class="content-main" id="content-main">
+                <figure class="static-img" id="static-img">
+                    <figcaption id="heading-main">Walnut Street Bridge, Chattanooga, TN</figcaption>
+                    <img id="image-default" alt="" src="https://maps.googleapis.com/maps/api/staticmap?scale=2&maptype=hybrid&amp;format=png&amp;markers=color:blue|35.0566504,-85.3097487&amp;center=35.0566504,-85.3097487&amp;zoom=18&amp;size=640x400&amp;key=AIzaSyBJgJ23ZGw9AajjwzuHLolsplfTByUmU0A">
+                </figure>
+            </main>
+            <aside id="sidebar"></aside>
+
+            <span class="message" id="viewport-type"></span>
+        </div>
+        <script async defer src="//maps.googleapis.com/maps/api/js?key=AIzaSyBJgJ23ZGw9AajjwzuHLolsplfTByUmU0A&amp;callback=initMap"></script>
+        <script src="demo/demo.js"></script>
+    </body>
+</html>

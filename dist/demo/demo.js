@@ -44,55 +44,98 @@ function initMap() {
     'use strict';
 
     var doc          = document,
+        body         = doc.body,
+        message      = doc.querySelector('#viewport-type'),
         key          = 'AIzaSyBJgJ23ZGw9AajjwzuHLolsplfTByUmU0A',
         latlong      = '35.0566504,-85.3097487', // Walnut Street Bridge, Chattanooga, TN
         staticParams = {
             maptype: 'hybrid',
-            scale: 2,
+            scale: 1,
             format: 'png',
             markers: 'color:blue',
             center: latlong,
             zoom: 19,
             size: '640x360',
             key: key
-        };
+        },
+        console = console || {log: function () {}, error: function () {}};
+
+    initLayout();
 
     if ( typeof navigator === 'object' ) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-            var coords = position.coords;
-
-            latlong = coords.latitude + ',' + coords.longitude;
-
-            // update center with geolocation
-            staticParams.center  = latlong;
-            staticParams.markers = staticParams.markers + '|' + latlong;
-
-            updateYourLocation()
-            makeYourLocationImage();
-        });
+        navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError);
     } else {
-        makeYourLocationImage();
+        viewport.watchViewport(function () {
+            updateLayout();
+            updateParamsFromViewport();
+        });
     }
 
-    function makeYourLocationImage() {
-        var image  = doc.createElement('img'),
-            target = doc.querySelector('#static-img');
+    function geolocationSuccess(position) {
+        latlong = position.coords.latitude + ',' + position.coords.longitude;
 
-        image.alt = '';
-        image.src = getStaticUrl();
+        // update center with geolocation
+        staticParams.center  = latlong;
+        staticParams.markers = staticParams.markers + '|' + latlong;
 
-        target.appendChild(image);
+        // initialize page
+        updateFigcaption();
+        updateImage();
+
+        viewport.watchViewport(function () {
+            updateLayout();
+            updateImage();
+        });
     }
 
-    function updateYourLocation() {
-        var heading = doc.querySelector('#heading-main'),
-            image   = doc.querySelector('#image-default');
+    function geolocationError(error) {
+        console.error(error.code, error.message);
+
+        // set viewport event
+        viewport.watchViewport(function () {
+            updateLayout();
+            updateParamsFromViewport();
+        });
+    }
+
+    function initLayout() {
+        // initialize body class
+        body.classList.add('viewport-' + viewport.getType());
+
+        // viewport type appears in background
+        message.innerHTML = viewport.getType();
+    }
+
+    function updateLayout() {
+        body.className = '';
+        body.classList.add('viewport-' + viewport.getType());
+
+        message.innerHTML = viewport.getType();
+    }
+
+    function updateParamsFromViewport() {
+        if (viewport.getType() === 'widescreen') {
+            staticParams.scale = 2;
+        }
+    }
+
+    function updateImage() {
+        var target = doc.querySelector('#static-img');
+
+        if (viewport.getType() === 'widescreen') {
+            staticParams.scale = 2;
+        }
+
+        target.src = getStaticImageUrl();
+    }
+
+    function updateFigcaption() {
+        var heading = doc.querySelector('#heading-main');
 
         heading.innerHTML = 'Your Location';
-        image.parentNode.removeChild(image);
     }
 
-    function getStaticUrl() {
+    function getStaticImageUrl() {
         return 'https://maps.googleapis.com/maps/api/staticmap?' + getStaticParams();
     }
 
@@ -120,30 +163,3 @@ function initMap() {
         return parseInt(height, 10) * 16 / 9; // height * 16 / 9
     }
 }
-(function (doc) {
-    'use strict';
-
-    var body    = doc.body,
-        message = doc.querySelector('#viewport-type');
-
-    init();
-
-    viewport.watchViewport(function () {
-        updateLayout()
-    });
-
-    function init() {
-        // initialize body class
-        body.classList.add('viewport-' + viewport.getType());
-
-        // viewport type appears in background
-        message.innerHTML = viewport.getType();
-    }
-
-    function updateLayout() {
-        body.className = '';
-        body.classList.add('viewport-' + viewport.getType());
-
-        message.innerHTML = viewport.getType();
-    }
-}(document));

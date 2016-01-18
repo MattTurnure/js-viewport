@@ -76,14 +76,14 @@ img {
     position: relative;
 }
 
-.static-img {
+.static-img-container {
     margin: 0;
     text-align: center;
+}
 
-    img {
-        border: 2px solid #222;
-        opacity: .75;
-    }
+.static-img {
+    border: 2px solid #222;
+    opacity: .75;
 }
 
 .message {

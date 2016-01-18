@@ -53,8 +53,7 @@ gulp.task('packageScripts', function () {
 gulp.task('demoScripts', function () {
     return gulp.src([
             'src/js-viewport.js',
-            'src/demo.js',
-            'src/demo.layout.js'
+            'src/demo.js'
         ])
         .pipe(concat('demo.js'))
         .pipe(gulp.dest('dist/demo'));

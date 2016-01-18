@@ -11,7 +11,7 @@ function initMap() {
             markers: 'color:blue',
             center: latlong,
             zoom: 19,
-            size: '640x400',
+            size: '640x360',
             key: key
         };
 
@@ -64,5 +64,17 @@ function initMap() {
 
         // return params with last ampersand trimmed
         return params.slice(0, -1);
+    }
+
+    function convertToAspectRatio(width, height) {
+        return getAspectRatioHeight(width) + 'x' + getAspectRatioWidth(height);
+    }
+
+    function getAspectRatioHeight(width) {
+        return parseInt(width, 10) * 9 / 16; // width * 9 / 16
+    }
+
+    function getAspectRatioWidth(height) {
+        return parseInt(height, 10) * 16 / 9; // height * 16 / 9
     }
 }

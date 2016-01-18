@@ -2,6 +2,7 @@ $message-size: 3;
 $breakpoint-one : 28.125em;
 $breakpoint-two : 31.25em;
 $breakpoint-wide: 60em;
+$color-main-text: #222;
 
 *, *:before, *:after {
     box-sizing: border-box;
@@ -19,6 +20,8 @@ html {
 body {
     margin: 0;
     padding: 0;
+    width: 100%;
+    height: 100%;
 }
 
 h1,
@@ -57,12 +60,12 @@ img {
 
 .viewport-handheld {
     background-color: #fff;
-    color: #222;
+    color: $color-main-text;
 }
 
 .viewport-mini {
     background-color: #ccc;
-    color: #222;
+    color: $color-main-text;
 }
 
 .viewport-tablet {
@@ -75,15 +78,10 @@ img {
     color: #fff;
 }
 
-.heading-main,
-.subheading {
-    margin-left: .5rem;
-}
-
 .wrapper {
-    height: 100vh;
     overflow: hidden;
     position: relative;
+    z-index: 3;
 }
 
 .content-main {
@@ -100,7 +98,7 @@ img {
 }
 
 .static-img {
-    border: 2px solid #222;
+    border: 2px solid $color-main-text;
     opacity: .75;
 }
 
@@ -115,6 +113,29 @@ img {
     left: 0;
     width: 100%;
     transform: rotate(-45deg);
+}
+
+.map-bg {
+    background-image: url('https://maps.googleapis.com/maps/api/staticmap?scale=1&maptype=hybrid&format=png&markers=color:blue|35.0566504,-85.3097487&center=35.0566504,-85.3097487&zoom=18&size=640x400&key=AIzaSyBJgJ23ZGw9AajjwzuHLolsplfTByUmU0A');
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-attachment: fixed;
+    background-size: cover;
+    opacity: .5;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.map {
+    display: none;
+}
+
+.hidden {
+    display: none;
 }
 
 .spin {
@@ -176,6 +197,7 @@ img {
     .has-sidebar {
         display: flex;
         flex-wrap: wrap;
+        height: 100vh;
 
         .content-main {
             padding-right: 1rem;
@@ -196,5 +218,22 @@ img {
     .message {
         font-size: $message-size + rem;
         margin-top: -$message-size/2 + rem;
+    }
+
+    .has-geolocation {
+        display: none;
+    }
+
+    .map {
+        color: $color-main-text;
+        display: block;
+        position: fixed !important;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 2;
     }
 }

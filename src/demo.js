@@ -1,100 +1,135 @@
-function initMap() {
+(function () {
     'use strict';
 
-    var doc          = document,
-        body         = doc.body,
-        message      = doc.querySelector('#viewport-type'),
-        wrapper      = doc.querySelector('#wrapper'),
-        key          = 'AIzaSyBJgJ23ZGw9AajjwzuHLolsplfTByUmU0A',
-        latlong      = '35.0566504,-85.3097487', // Walnut Street Bridge, Chattanooga, TN
-        staticParams = {
+    var doc            = document,
+        hasGeolocation = false,
+        body           = doc.body,
+        message        = doc.querySelector('#viewport-type'),
+        wrapper        = doc.querySelector('#wrapper'),
+        main           = doc.querySelector('#content-main'),
+        key            = 'AIzaSyBJgJ23ZGw9AajjwzuHLolsplfTByUmU0A',
+        lat            = '35.0566504',
+        long           = '-85.3097487',// Walnut Street Bridge, Chattanooga, TN
+        pageHeading    = 'Walnut Street Bridge, Chattanooga, TN',
+        staticParams   = {
             maptype: 'hybrid',
-            scale: 1,
+            scale: 2,
             format: 'png',
             markers: 'color:blue',
-            center: latlong,
+            center: lat + ',' + long,
             zoom: 19,
             size: '640x360',
             key: key
-        },
-        console = console || {log: function () {}, error: function () {}};
+        };
 
-    initLayout();
+    updateLayout();
 
     if ( typeof navigator === 'object' ) {
         navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError);
     } else {
-        viewport.watchViewport(function () {
-            updateLayout();
-            updateParamsFromViewport();
-        });
+        listenForResize();
     }
 
     function geolocationSuccess(position) {
-        latlong = position.coords.latitude + ',' + position.coords.longitude;
+        hasGeolocation = true;
+
+        wrapper.className = 'wrapper has-geolocation';
 
         // update center with geolocation
-        staticParams.center  = latlong;
-        staticParams.markers = staticParams.markers + '|' + latlong;
+        staticParams.lat = position.coords.latitude;
+        staticParams.long = position.coords.longitude;
+        staticParams.center = position.coords.latitude + ',' + position.coords.longitude;
+        staticParams.markers = staticParams.markers + '|' + lat + ',' + long;
 
         // initialize page
-        updateFigcaption();
-        updateImage();
+        updatePageHeading();
+        updateBackgroundImage();
 
-        viewport.watchViewport(function () {
-            updateLayout();
-            updateImage();
-        });
+        if (viewport.getType() === 'widescreen') {
+            createMap();
+        }
+
+        listenForResize();
     }
 
     function geolocationError(error) {
         console.error(error.code, error.message);
 
         // set viewport event
+        listenForResize();
+    }
+
+    function listenForResize() {
         viewport.watchViewport(function () {
             updateLayout();
             updateParamsFromViewport();
+
+            if (viewport.getType() === 'widescreen' && doc.getElementById('map').innerHTML === '') {
+                createMap();
+            }
         });
     }
 
-    function initLayout() {
-        // initialize body class
-        body.classList.add('viewport-' + viewport.getType());
+    function createMap() {
+        var latlong = new google.maps.LatLng(lat, long);
+        var mapOptions = {
+            zoom: 19,
+            center: latlong,
+            mapTypeId: google.maps.MapTypeId.HYBRID
+        };
+        var map = new google.maps.Map(doc.getElementById('map'), mapOptions);
+        var contentString = '<div id="content">'+
+          '<div id="siteNotice">'+
+          '</div>'+
+          '<h1 id="firstHeading" class="firstHeading">'+ pageHeading +'</h1>'+
+          '<div id="bodyContent">'+
+          '<p>This is what you get when <code>viewport.getType() === "widescreen"</code></p>'+
+          '</div>'+
+          '</div>';
 
-        // viewport type appears in background
-        message.innerHTML = viewport.getType();
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+        });
+        var marker = new google.maps.Marker({
+            position: latlong,
+            map: map,
+            title: pageHeading
+        });
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+        });
 
-        if (viewport.getType() === 'widescreen' && !doc.querySelector('#sidebar')) {
-            // add sidebar
-            wrapper.className += ' has-sidebar';
-            buildSidebar();
-        }
+        infowindow.open(map, marker);
     }
 
     function updateLayout() {
-        body.className = '';
-        body.classList.add('viewport-' + viewport.getType());
+        body.className = 'viewport-' + viewport.getType();
 
+        updateStateBackgroundText();
+
+        // add sidebar if it does not exist
+        buildSidebar();
+    }
+
+    function updateStateBackgroundText() {
         message.innerHTML = viewport.getType();
-
-        // add sidebar
-        console.log(doc.querySelector('#sidebar'));
-        if (viewport.getType() === 'widescreen' && !doc.querySelector('#sidebar')) {
-            wrapper.className += ' has-sidebar';
-            buildSidebar();
-        }
     }
 
     function buildSidebar() {
-        var sidebar = doc.createElement('aside');
+        var sidebar;
 
-        sidebar.id = 'sidebar';
-        sidebar.className = 'sidebar';
-        wrapper.appendChild(sidebar);
+        if (viewport.getType() === 'tablet' && !doc.querySelector('#sidebar')) {
+            sidebar = doc.createElement('aside');
 
-        renderAjaxFrag('demo/frags/sidebar.html', function () {
-            console.log('sidebar loaded');
-        });
+            wrapper.className += ' has-sidebar';
+            sidebar.id = 'sidebar';
+            sidebar.className = 'sidebar';
+            wrapper.appendChild(sidebar);
+
+            renderAjaxFrag('demo/frags/sidebar.html', function () {
+                console.log('sidebar loaded');
+            });
+        }
     }
 
     function renderAjaxFrag(url, cb) {
@@ -103,37 +138,32 @@ function initMap() {
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
                 sidebar.innerHTML = xmlhttp.responseText;
+
+                if (typeof cb === 'function') {
+                    cb();
+                }
             }
         };
 
         xmlhttp.open('GET', url , true);
         xmlhttp.send();
-
-        if (typeof cb === 'function') {
-            cb();
-        }
     }
 
     function updateParamsFromViewport() {
-        if (viewport.getType() === 'widescreen') {
+        if (viewport.getType() === 'tablet') {
             staticParams.scale = 2;
         }
     }
 
-    function updateImage() {
-        var target = doc.querySelector('#static-img');
-
-        if (viewport.getType() === 'widescreen') {
-            staticParams.scale = 2;
-        }
-
-        target.src = getStaticImageUrl();
+    function updateBackgroundImage() {
+        doc.querySelector('#map-bg').style.backgroundImage = 'url(' + getStaticImageUrl() + ')';
     }
 
-    function updateFigcaption() {
+    function updatePageHeading() {
         var heading = doc.querySelector('#heading-main');
 
-        heading.innerHTML = 'Your Location';
+        pageHeading = 'Your Location';
+        heading.innerHTML = pageHeading;
     }
 
     function getStaticImageUrl() {
@@ -163,4 +193,4 @@ function initMap() {
     function getAspectRatioWidth(height) {
         return parseInt(height, 10) * 16 / 9; // height * 16 / 9
     }
-}
+}());

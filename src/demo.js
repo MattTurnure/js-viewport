@@ -4,6 +4,7 @@ function initMap() {
     var doc          = document,
         body         = doc.body,
         message      = doc.querySelector('#viewport-type'),
+        wrapper      = doc.querySelector('#wrapper'),
         key          = 'AIzaSyBJgJ23ZGw9AajjwzuHLolsplfTByUmU0A',
         latlong      = '35.0566504,-85.3097487', // Walnut Street Bridge, Chattanooga, TN
         staticParams = {
@@ -62,6 +63,12 @@ function initMap() {
 
         // viewport type appears in background
         message.innerHTML = viewport.getType();
+
+        if (viewport.getType() === 'widescreen' && !doc.querySelector('#sidebar')) {
+            // add sidebar
+            wrapper.className += ' has-sidebar';
+            buildSidebar();
+        }
     }
 
     function updateLayout() {
@@ -69,6 +76,42 @@ function initMap() {
         body.classList.add('viewport-' + viewport.getType());
 
         message.innerHTML = viewport.getType();
+
+        // add sidebar
+        console.log(doc.querySelector('#sidebar'));
+        if (viewport.getType() === 'widescreen' && !doc.querySelector('#sidebar')) {
+            wrapper.className += ' has-sidebar';
+            buildSidebar();
+        }
+    }
+
+    function buildSidebar() {
+        var sidebar = doc.createElement('aside');
+
+        sidebar.id = 'sidebar';
+        sidebar.className = 'sidebar';
+        wrapper.appendChild(sidebar);
+
+        renderAjaxFrag('demo/frags/sidebar.html', function () {
+            console.log('sidebar loaded');
+        });
+    }
+
+    function renderAjaxFrag(url, cb) {
+        var xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                sidebar.innerHTML = xmlhttp.responseText;
+            }
+        };
+
+        xmlhttp.open('GET', url , true);
+        xmlhttp.send();
+
+        if (typeof cb === 'function') {
+            cb();
+        }
     }
 
     function updateParamsFromViewport() {

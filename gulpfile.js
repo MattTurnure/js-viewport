@@ -24,6 +24,12 @@ gulp.task('html', function () {
         .pipe(gulp.dest('dist/'));
 });
 
+gulp.task('htmlFrags', function () {
+    return gulp.src('src/frags/**/*.html')
+        .pipe(htmlmin({collapseWhitespace: true}))
+        .pipe(gulp.dest('dist/demo/frags'));
+});
+
 gulp.task('sass', function () {
     gulp.src('src/scss/**/*.scss')
     .pipe(concat('demo.css'))
@@ -63,11 +69,11 @@ gulp.task('clean', function (cb) {
     del(['dist'], cb);
 });
 
-gulp.task('build', ['html', 'sass', 'packageSass', 'packageCSS', 'packageScripts', 'demoScripts']);
+gulp.task('build', ['html', 'htmlFrags', 'sass', 'packageSass', 'packageCSS', 'packageScripts', 'demoScripts']);
 
 gulp.task('default', ['build']);
 
-gulp.task('serve', ['html', 'sass', 'demoScripts'], function () {
+gulp.task('serve', ['html', 'htmlFrags', 'sass', 'demoScripts'], function () {
     browserSync.init({
         server: {
             baseDir: './dist'
@@ -77,7 +83,9 @@ gulp.task('serve', ['html', 'sass', 'demoScripts'], function () {
     gulp.watch('src/scss/*.scss', ['sass']);
     gulp.watch('src/**/*.js', ['demoScripts']);
     gulp.watch('src/index.html', ['html']);
+    gulp.watch('src/frags/**/.*.html', ['htmlFrags']);
 
     gulp.watch('src/index.html').on('change', reload);
+    gulp.watch('src/frags/**/.*.html').on('change', reload);
     gulp.watch('dist/demo/demo.js').on('change', reload);
 });

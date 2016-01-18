@@ -16,7 +16,13 @@ html {
     line-height: 23px;
 }
 
-h1 {
+body {
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+figcaption {
     font-size: 23px;
     font-weight: 500;
 }
@@ -33,6 +39,10 @@ h3 {
 
 p {
     font-size: 14px;
+}
+
+figcaption {
+    margin: .75rem 0 1rem;
 }
 
 img {
@@ -76,6 +86,14 @@ img {
     position: relative;
 }
 
+.content-main {
+    padding: 0 1rem;
+}
+
+.sidebar {
+    padding: 0 1rem;
+}
+
 .static-img-container {
     margin: 0;
     text-align: center;
@@ -97,22 +115,6 @@ img {
     left: 0;
     width: 100%;
     transform: rotate(-45deg);
-}
-
-.has-sidebar {
-    display: flex;
-    flex-wrap: wrap;
-
-    .content-main {
-        padding-right: .5rem;
-        width: 75%;
-    }
-
-    .sidebar {
-        background-color: rgba(0,0,0,0.25);
-        padding: 0 24px 24px;
-        width: 25%;
-    }
 }
 
 .spin {
@@ -169,6 +171,22 @@ img {
     .message {
         font-size: $message-size + rem;
         margin-top: -$message-size/2 + rem;
+    }
+
+    .has-sidebar {
+        display: flex;
+        flex-wrap: wrap;
+
+        .content-main {
+            padding-right: 1rem;
+            width: 66%;
+        }
+
+        .sidebar {
+            background-color: rgba(0,0,0,0.25);
+            padding: 0 24px 24px;
+            width: 34%;
+        }
     }
 }
 

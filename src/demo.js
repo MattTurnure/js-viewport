@@ -6,7 +6,6 @@
     }
 
     var doc            = document,
-        hasGeolocation = false,
         body           = doc.body,
         message        = doc.querySelector('#viewport-type'),
         wrapper        = doc.querySelector('#wrapper'),
@@ -36,8 +35,6 @@
     }
 
     function geolocationSuccess(position) {
-        hasGeolocation = true;
-
         wrapper.classList.add('has-geolocation');
 
         // update center with geolocation
@@ -106,6 +103,9 @@
             map: map,
             title: pageHeading
         });
+
+        wrapper.classList.add('has-map');
+
         marker.addListener('click', function() {
             infowindow.open(map, marker);
         });

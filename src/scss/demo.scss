@@ -237,11 +237,13 @@ img {
 @media all and (min-width: $breakpoint-wide) {
     $message-size: 12;
 
-    display: none;
-
     .message {
         font-size: $message-size + rem;
         margin-top: -$message-size/2 + rem;
+    }
+
+    .has-map {
+        display: none;
     }
 
     .map {

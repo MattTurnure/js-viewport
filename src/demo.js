@@ -10,11 +10,11 @@
         message        = doc.querySelector('#viewport-type'),
         wrapper        = doc.querySelector('#wrapper'),
         main           = doc.querySelector('#content-main'),
-        pageHeading    = 'Walnut Street Bridge, Chattanooga, TN',
         infoContent    = doc.querySelector('#info-content'),
+        pageHeading    = 'Walnut Street Bridge, Chattanooga, TN',
         key            = 'AIzaSyBJgJ23ZGw9AajjwzuHLolsplfTByUmU0A',
         lat            = '35.0566504',
-        long           = '-85.3097487',// Walnut Street Bridge, Chattanooga, TN
+        long           = '-85.3097487', // Walnut Street Bridge, Chattanooga, TN
         staticParams   = {
             maptype: 'hybrid',
             scale: 1,
@@ -31,19 +31,10 @@
     if ( typeof navigator === 'object' ) {
         navigator.geolocation.getCurrentPosition(geolocationSuccess, geolocationError);
     } else {
-        listenForResize();
+        initPage();
     }
 
-    function geolocationSuccess(position) {
-        wrapper.classList.add('has-geolocation');
-
-        // update center with geolocation
-        staticParams.lat = position.coords.latitude;
-        staticParams.long = position.coords.longitude;
-        staticParams.center = position.coords.latitude + ',' + position.coords.longitude;
-        staticParams.markers = staticParams.markers + '|' + lat + ',' + long;
-
-        // initialize page
+    function initPage() {
         updatePageHeading();
         updateBackgroundImage();
 
@@ -54,11 +45,24 @@
         listenForResize();
     }
 
+    function geolocationSuccess(position) {
+        wrapper.classList.add('has-geolocation');
+
+        // update center with geolocation
+        lat = position.coords.latitude;
+        long = position.coords.longitude;
+        staticParams.center = position.coords.latitude + ',' + position.coords.longitude;
+        staticParams.markers = staticParams.markers + '|' + position.coords.latitude + ',' + position.coords.longitude;
+
+        // initialize page
+        initPage();
+    }
+
     function geolocationError(error) {
         console.error(error.code, error.message);
 
-        // set viewport event
-        listenForResize();
+        // initialize page
+        initPage();
     }
 
     function listenForResize() {
@@ -92,6 +96,8 @@
             '<li><strong>Widescreen</strong> - At this state, the background image is replaced with a fully-functional Google map.</li>'+
             '</ol>'+
             '<p>This is what you get when <code>viewport.getType() === "widescreen"</code></p>'+
+            '<h3>' + pageHeading + '</h3>'+
+            '<p><em>' + lat + ', ' + long + '</em></p>'+
             '</div>'+
             '</div>';
 
@@ -173,9 +179,9 @@
     function updatePageHeading() {
         var heading = doc.querySelector('#heading-main');
 
-        pageHeading = 'Your Location';
+        pageHeading = 'Your Coordinates';
         heading.innerHTML = pageHeading;
-        infoContent.innerHTML = 'This location is ' + lat + ', ' + long;
+        infoContent.innerHTML = '' + lat + ', ' + long;
     }
 
     function getStaticImageUrl() {

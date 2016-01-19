@@ -24,8 +24,7 @@ body {
     height: 100%;
 }
 
-h1,
-figcaption {
+h1 {
     font-size: 23px;
     font-weight: 500;
 }
@@ -38,19 +37,28 @@ h2 {
 h3 {
     font-size: 14px;
     font-weight: 500;
+    margin-bottom: 0;
 }
 
 p {
     font-size: 14px;
+    margin-top: 0;
 }
 
-figcaption {
-    margin: .75rem 0 1rem;
+ul, ol {
+    margin-left: 0;
+    padding-left: 1.5rem;
 }
 
 img {
     max-width: 100%;
     height: auto;
+}
+
+.subheading {
+    @extend h3;
+
+    margin-top: .5rem;
 }
 
 // body classes generated from JS
@@ -60,16 +68,16 @@ img {
 
 .viewport-handheld {
     background-color: #fff;
-    color: $color-main-text;
+    color: #222;
 }
 
 .viewport-mini {
-    background-color: #ccc;
-    color: $color-main-text;
+    background-color: rgba(62,99,113,.5);;
+    color: #fff;
 }
 
 .viewport-tablet {
-    background-color: #666;
+    background-color: rgba(62,99,113,.75);;
     color: #fff;
 }
 
@@ -79,6 +87,7 @@ img {
 }
 
 .wrapper {
+    height: 100vh;
     overflow: hidden;
     position: relative;
     z-index: 3;
@@ -89,7 +98,15 @@ img {
 }
 
 .sidebar {
+    border-top: 1px solid;
     padding: 0 1rem;
+}
+
+.info-content {
+    background-color: rgba(255,255,255,.75);
+    color: #222;
+    margin-bottom: 1rem;
+    padding: .5rem 1rem;
 }
 
 .static-img-container {
@@ -121,7 +138,7 @@ img {
     background-position: 50%;
     background-attachment: fixed;
     background-size: cover;
-    opacity: .5;
+    opacity: .15;
     position: fixed;
     top: 0;
     bottom: 0;
@@ -206,9 +223,14 @@ img {
 
         .sidebar {
             background-color: rgba(0,0,0,0.25);
+            border: 0;
             padding: 0 24px 24px;
             width: 34%;
         }
+    }
+
+    .map-bg {
+        opacity: .5;
     }
 }
 

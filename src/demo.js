@@ -1,19 +1,24 @@
 (function () {
     'use strict';
 
+    if (typeof document.body.classList !== 'object') {
+        return;
+    }
+
     var doc            = document,
         hasGeolocation = false,
         body           = doc.body,
         message        = doc.querySelector('#viewport-type'),
         wrapper        = doc.querySelector('#wrapper'),
         main           = doc.querySelector('#content-main'),
+        pageHeading    = 'Walnut Street Bridge, Chattanooga, TN',
+        infoContent    = doc.querySelector('#info-content'),
         key            = 'AIzaSyBJgJ23ZGw9AajjwzuHLolsplfTByUmU0A',
         lat            = '35.0566504',
         long           = '-85.3097487',// Walnut Street Bridge, Chattanooga, TN
-        pageHeading    = 'Walnut Street Bridge, Chattanooga, TN',
         staticParams   = {
             maptype: 'hybrid',
-            scale: 2,
+            scale: 1,
             format: 'png',
             markers: 'color:blue',
             center: lat + ',' + long,
@@ -33,7 +38,7 @@
     function geolocationSuccess(position) {
         hasGeolocation = true;
 
-        wrapper.className = 'wrapper has-geolocation';
+        wrapper.classList.add('has-geolocation');
 
         // update center with geolocation
         staticParams.lat = position.coords.latitude;
@@ -79,13 +84,19 @@
         };
         var map = new google.maps.Map(doc.getElementById('map'), mapOptions);
         var contentString = '<div id="content">'+
-          '<div id="siteNotice">'+
-          '</div>'+
-          '<h1 id="firstHeading" class="firstHeading">'+ pageHeading +'</h1>'+
-          '<div id="bodyContent">'+
-          '<p>This is what you get when <code>viewport.getType() === "widescreen"</code></p>'+
-          '</div>'+
-          '</div>';
+            '<div id="siteNotice">'+
+            '</div>'+
+            '<h1 id="firstHeading" class="firstHeading">JS Viewport</h1>'+
+            '<div id="bodyContent">'+
+            '<p>There are <em>three</em> distinct experiences in this <code>js-viewport</code> demo:</p>'+
+            '<ol>'+
+            '<li><strong>Handheld</strong> - This loads in a default background image and basic content that does not depend on <code>JavaScript</code> at all.</li>'+
+            '<li><strong>Tablet</strong> - When in this viewport width, a better resolution of the background gets loaded as well. A sidebar is added to the DOM from an AJAX request.</li>'+
+            '<li><strong>Widescreen</strong> - At this state, the background image is replaced with a fully-functional Google map.</li>'+
+            '</ol>'+
+            '<p>This is what you get when <code>viewport.getType() === "widescreen"</code></p>'+
+            '</div>'+
+            '</div>';
 
         var infowindow = new google.maps.InfoWindow({
             content: contentString
@@ -121,7 +132,7 @@
         if (viewport.getType() === 'tablet' && !doc.querySelector('#sidebar')) {
             sidebar = doc.createElement('aside');
 
-            wrapper.className += ' has-sidebar';
+            wrapper.classList.add('has-sidebar');
             sidebar.id = 'sidebar';
             sidebar.className = 'sidebar';
             wrapper.appendChild(sidebar);
@@ -164,6 +175,7 @@
 
         pageHeading = 'Your Location';
         heading.innerHTML = pageHeading;
+        infoContent.innerHTML = 'This location is ' + lat + ', ' + long;
     }
 
     function getStaticImageUrl() {

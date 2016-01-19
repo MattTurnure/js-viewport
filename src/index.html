@@ -12,7 +12,28 @@
     <body role="document">
         <div class="wrapper" id="wrapper">
             <main class="content-main" id="content-main">
-                <h1 id="heading-main" class="heading-main">Walnut Street Bridge, Chattanooga, TN</h1>
+                <article class="info">
+                    <h1>JS Viewport</h1>
+                    <div class="info-content">
+                        <p>There are <em>three</em> distinct experiences in this <code>js-viewport</code> demo:</p>
+                        <ol>
+                            <li>
+                                <strong>Handheld</strong> &#8211; This loads in a default background image and basic content that does not depend on <code>JavaScript</code> at all.
+                            </li>
+                            <li>
+                                <strong>Tablet</strong> &#8211; When in this viewport width, a better resolution of the background gets loaded as well. A sidebar is added to the DOM from an AJAX request.
+                            </li>
+                            <li>
+                                <strong>Widescreen</strong> &#8211; At this state, the background image is replaced with a fully-functional Google map.
+                            </li>
+                        </ol>
+
+                        <h3 id="heading-main" class="heading-main">Walnut Street Bridge, Chattanooga, TN</h3>
+                        <p>
+                            <em id="info-content"><code>navigator.geolocation</code> has not fired yet.</em>
+                        </p>
+                    </div>
+                </article>
             </main>
         </div>
         <div class="map" id="map"></div>

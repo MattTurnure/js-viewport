@@ -48,19 +48,22 @@ Out of the box, here is what the compiled CSS looks like:
 @media all and (min-width: 28.125em) {
   body:after {
     content: "mini";
-    display: none; }
+    display: none;
+  }
 }
 
 @media all and (min-width: 31.25em) {
   body:after {
     content: "tablet";
-    display: none; }
+    display: none;
+  }
 }
 
 @media all and (min-width: 60em) {
   body:after {
     content: "widescreen";
-    display: none; }
+    display: none;
+  }
 }
 ```
 

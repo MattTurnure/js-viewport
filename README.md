@@ -8,7 +8,7 @@ Check out the [demo](http://mattturnure.github.io/js-viewport/).
 1. `npm install viewport-angular`
 2. Or download from [GitHub](https://github.com/MattTurnure/js-viewport)
 3. Add this in your head tag: `<link rel="stylesheet" href="[assetsPath]/js-viewport.css">`
-4. Load this after your Angular script: `<script src="[assetsPath]/js-viewport.js" ></script>`
+4. Add this script tag: `<script src="[assetsPath]/js-viewport.js" ></script>`
 
 ## Basic Usage
 

@@ -1,6 +1,6 @@
 {
   "name": "js-viewport",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Create variables within CSS media queries that you can use to sync up your width-sensitive JavaScript methods on load and resize events.",
   "main": "index.js",
   "scripts": {

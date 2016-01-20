@@ -1,50 +1,17 @@
-# JS Viewport
-Create variables within CSS media queries that you can use to sync up your width-sensitive JavaScript methods on load and resize events.
-
-Check out the [demo](http://mattturnure.github.io/js-viewport/).
-
 ## Install and Bootstrap
 
 1. `npm install js-viewport`
-2. Or download the [zip](https://github.com/MattTurnure/js-viewport/archive/master.zip)
-3. Add this in your head tag: `<link rel="stylesheet" href="[assetsPath]/js-viewport.css">`
-4. Add this script tag: `<script src="[assetsPath]/js-viewport.js" ></script>`
+2. Or download the [zip](https://github.com/MattTurnure/js-viewport/archive/master.zip) from GitHub
+3. Add this in your head tag: `<link rel="stylesheet" href="[assetsPath]/js-viewport.css">`
+4. Add this script tag: `<script src="[assetsPath]/js-viewport.js" ></script>`
 
 ## Basic Usage
 
-There are two factory methods that viewport module returns: `getType` and `watchViewport`.
+### The CSS
 
-`viewport.getType` returns the string value based on the viewport width.
+Basically, you set variables as generated content in the CSS. The JavaScript then reads those generated values from the page. By managing your media queries in your CSS and allowing JS to follow that lead, your presentational layer and behavioral layer are totally synced up. Another benefit is you don't have to replicate your breakpoints in your JS with `matchMedia`.
 
-Example: `console.log( viewport.getType() ) // possible values returned are handheld, mini, tablet, or widescreen`
-
-`watchViewport` instantiates a resize event that you can pass a callback to.
-
-```
-viewport.watchViewport(function () {
-    if ( viewport.getType() === 'handheld' ) {
-        // doSomeHandheldThing();
-    }
-
-    if ( viewport.getType() === 'mini' ) {
-        // doSomeMiniThing();
-    }
-
-    if ( viewport.getType() === 'tablet' ) {
-        // doSomeTabletThing();
-    }
-
-    if ( viewport.getType() === 'widescreen' ) {
-        // doSomeWidescreenThing();
-    }
-});
-```
-
-### Regarding the CSS
-
-Out of the box, here is what the compiled CSS looks like:
-
-```
+``` css
 @media all and (min-width: 28.125em) {
   body:after {
     content: "mini";
@@ -67,6 +34,45 @@ Out of the box, here is what the compiled CSS looks like:
 }
 ```
 
-Note the `content` property values that get set inside the media queries. Those will act as CSS tokens that JavaScript will read and use later. Feel free to change the widths if your breakpoints are different. Also, you can add new ones as long as you update the `types` array at the top of `js-viewport.js`. `types` is currently set to `['handheld', 'mini', 'tablet', 'widescreen']`.
+Feel free to change the breakpoints for your own needs. You can add new ones as long as you update the `types` array. In the standard version, the array is located at the top of `js-viewport.js`. For the AngularJS version, it is located at the top of `ng-viewport.js`.
 
-By the way, there is also an `.scss` file in there if you want to bring it into your own Sass build process.
+By the way, there is also an `.scss` file in there if you want to bring it into your own Sass build process.
+
+### The JavaScript
+
+There are two methods that `viewport` returns: `getType` and `watchViewport`.
+
+#### `viewport.getType()`
+
+This method returns the generated content value set in the CSS.
+
+``` javascript
+console.log(viewport.getType());
+// returns 'handheld', 'mini', 'tablet', or 'widescreen'
+```
+
+#### `watchViewport`
+
+This method instantiates a resize event that you pass a callback to.
+
+#### Example
+
+``` javascript
+viewport.watchViewport(function () {
+    if ( viewport.getType() === 'handheld' ) {
+        // doSomeHandheldThing();
+    }
+
+    if ( viewport.getType() === 'mini' ) {
+        // doSomeMiniThing();
+    }
+
+    if ( viewport.getType() === 'tablet' ) {
+        // doSomeTabletThing();
+    }
+
+    if ( viewport.getType() === 'widescreen' ) {
+        // doSomeWidescreenThing();
+    }
+});
+```

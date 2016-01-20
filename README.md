@@ -5,7 +5,7 @@ Check out the [demo](http://mattturnure.github.io/js-viewport/).
 
 ## Install and Bootstrap
 
-1. `npm install viewport-angular`
+1. `npm install js-viewport`
 2. Or download the [zip](https://github.com/MattTurnure/js-viewport/archive/master.zip)
 3. Add this in your head tag: `<link rel="stylesheet" href="[assetsPath]/js-viewport.css">`
 4. Add this script tag: `<script src="[assetsPath]/js-viewport.js" ></script>`

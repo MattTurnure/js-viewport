@@ -1,3 +1,5 @@
+# JS Viewport
+
 ## Install and Bootstrap
 
 1. `npm install js-viewport`

@@ -7,6 +7,8 @@
 3. Add this in your head tag: `<link rel="stylesheet" href="[assetsPath]/js-viewport.css">`
 4. Add this script tag: `<script src="[assetsPath]/js-viewport.js" ></script>`
 
+Checkout a [demo](http://mattturnure.github.io/js-viewport/).
+
 ## Basic Usage
 
 ### The CSS
@@ -36,7 +38,7 @@ Basically, you set variables as generated content in the CSS. The JavaScript the
 }
 ```
 
-Feel free to change the breakpoints for your own needs. You can add new ones as long as you update the `types` array. In the standard version, the array is located at the top of `js-viewport.js`. For the AngularJS version, it is located at the top of `ng-viewport.js`.
+Feel free to change the breakpoints for your own needs. You can add new ones as long as you update the `types` array. In the standard version, the array is located at the top of `js-viewport.js`. There is also an (AngularJS version)[https://github.com/MattTurnure/Viewport/tree/angular].
 
 By the way, there is also an `.scss` file in there if you want to bring it into your own Sass build process.
 
